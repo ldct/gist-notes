@@ -7,7 +7,7 @@ defmodule GistNotes.Mixfile do
      elixir: ">= 1.1.1",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -15,7 +15,7 @@ defmodule GistNotes.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [],
+      applications: [:httpotion],
       mod: {GistNotes, []}
     ]
   end
@@ -31,12 +31,13 @@ defmodule GistNotes.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tentacat, "~> 0.5"},
+      {:httpotion, "~> 2.1.0"},
+      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.0"},
       {:poison, "~> 2.0"},
-      {:postgrex, ">= 0.0.0"},
-      {:uuid, "~> 1.1" }
+      {:uuid, "~> 1.1"},
+      {:sqlitex, "~> 1.1.1"},
     ]
   end
 end
