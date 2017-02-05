@@ -5,8 +5,17 @@ defmodule GistNotes.Db do
 		end)
 	end
 	def search(q) do
-		Sqlitex.with_db('./db.sqlite3', fn(db) ->
-			Sqlitex.query(db, "select id from gists where content like $1;", bind: ["%" <> q <> "%"])
+		{:ok, results} = Sqlitex.with_db('./db.sqlite3', fn(db) ->
+			Sqlitex.query(db, "select id, substr(content,0,100) as trunc_content from gists where content like $1;", bind: ["%" <> q <> "%"])
+		end)
+
+		results
+		|> Enum.map(fn row ->
+			[id: id, trunc_content: trunc_content] = row
+			%{
+				"id" => id,
+				"trunc_content" => trunc_content,
+			}
 		end)
 	end
 	def update() do
